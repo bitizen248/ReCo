@@ -5,7 +5,7 @@
  */
 package ru.iate.reco;
 
-import ru.iate.reco.ui.ProjectWindow;
+import ru.iate.reco.ui.WelcomeWindow;
 
 /**
  *
@@ -14,7 +14,7 @@ import ru.iate.reco.ui.ProjectWindow;
 public class Reco {
     
     public static void main(String[] args) {
-        ProjectWindow window = new ProjectWindow();
+        WelcomeWindow window = new WelcomeWindow();
         window.setVisible(true);
     }
 }

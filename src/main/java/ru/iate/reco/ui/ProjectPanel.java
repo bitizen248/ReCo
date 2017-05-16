@@ -5,16 +5,23 @@
  */
 package ru.iate.reco.ui;
 
+import ru.iate.reco.obj.RecoProject;
+
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
 /**
  *
  * @author Bitizen
  */
 public class ProjectPanel extends javax.swing.JPanel {
 
+    private ProjectWindow window;
     /**
      * Creates new form ProjectPanel
      */
-    public ProjectPanel() {
+    public ProjectPanel(ProjectWindow window) {
+        this.window = window;
         initComponents();
     }
 
@@ -26,20 +33,82 @@ public class ProjectPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jPanel1 = new javax.swing.JPanel();
+        javax.swing.JLabel nameLabel = new javax.swing.JLabel();
+        nameField = new javax.swing.JTextField();
+        javax.swing.JLabel rootLabel = new javax.swing.JLabel();
+        requestRootField = new javax.swing.JTextField();
+
+        setLayout(new java.awt.BorderLayout());
+
+        jScrollPane1.setAlignmentX(0.0F);
+        jScrollPane1.setAlignmentY(0.0F);
+
+        jPanel1.setAlignmentX(0.0F);
+        jPanel1.setAlignmentY(0.0F);
+        jPanel1.setLayout(new java.awt.GridBagLayout());
+
+        nameLabel.setText("Name:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.ipadx = 2;
+        gridBagConstraints.ipady = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 8, 0, 8);
+        jPanel1.add(nameLabel, gridBagConstraints);
+
+        nameField.setText(window.getProject().getName());
+        nameField.getDocument().addDocumentListener(new DocumentListener(){
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                removeUpdate(e);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                window.getProject().setName(nameField.getText());
+                window.getRootPane().updateUI();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.1;
+        jPanel1.add(nameField, gridBagConstraints);
+
+        rootLabel.setText("Request root:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 2;
+        gridBagConstraints.ipady = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 8, 0, 8);
+        jPanel1.add(rootLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.1;
+        jPanel1.add(requestRootField, gridBagConstraints);
+
+        jScrollPane1.setViewportView(jPanel1);
+
+        add(jScrollPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField nameField;
+    private javax.swing.JTextField requestRootField;
     // End of variables declaration//GEN-END:variables
 }

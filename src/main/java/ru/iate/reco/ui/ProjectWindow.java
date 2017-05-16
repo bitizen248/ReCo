@@ -60,6 +60,7 @@ public class ProjectWindow extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(700, 500));
 
         root.setLayout(new java.awt.BorderLayout());
 
@@ -117,6 +118,8 @@ public class ProjectWindow extends javax.swing.JFrame {
 
         menu.add(jPanel3);
 
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(300, 300));
+
         projectMenu.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         projectMenu.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting() && projectMenu.getSelectedIndex() != -1) {
@@ -128,7 +131,7 @@ public class ProjectWindow extends javax.swing.JFrame {
                     RequestPanel panel = new RequestPanel();
                     frame.add(panel);
                 }
-                getRootPane().updateUI();
+                frame.updateUI();
             }
         });
         jScrollPane1.setViewportView(projectMenu);

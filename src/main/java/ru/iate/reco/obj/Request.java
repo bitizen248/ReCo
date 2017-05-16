@@ -5,11 +5,59 @@
  */
 package ru.iate.reco.obj;
 
+import com.google.gson.JsonObject;
+import java.util.Map;
+
 /**
  *
  * @author Bitizen
  */
 public class Request {
     
-    
+     private String address;
+     private RequestType requestType;
+     private Map<String, String> headers;
+     
+     private Map<String, Object> requestParamsGet;
+     private Object requestParamsPost;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public RequestType getRequestType() {
+        return requestType;
+    }
+
+    public void setRequestType(RequestType requestType) {
+        this.requestType = requestType;
+    }
+
+    public Map<String, String> getHeaders() {
+        return headers;
+    }
+
+    public void setHeaders(Map<String, String> headers) {
+        this.headers = headers;
+    }
+
+    public Map<String, Object> getRequestParamsGet() {
+        return requestParamsGet;
+    }
+
+    public void setRequestParamsGet(Map<String, Object> requestParamsGet) {
+        this.requestParamsGet = requestParamsGet;
+    }
+
+    public Object getRequestParamsPost() {
+        return requestParamsPost;
+    }
+
+    public void setRequestParamsPost(Object requestParamsPost) {
+        this.requestParamsPost = requestParamsPost;
+    }
 }

@@ -5,17 +5,17 @@
  */
 package ru.iate.reco.ui;
 
-import ru.iate.reco.facroty.ProjectFactory;
 import ru.iate.reco.obj.RecoProject;
 
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import ru.iate.reco.factory.ProjectFactory;
 
 /**
  *
- * @author Luksoral
+ * @author Bitizen
  */
 public class NewProjectWindow extends javax.swing.JFrame {
 

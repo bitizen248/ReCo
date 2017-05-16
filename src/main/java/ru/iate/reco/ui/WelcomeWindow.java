@@ -11,12 +11,12 @@ import java.awt.event.WindowListener;
 import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import ru.iate.reco.facroty.ProjectFactory;
+import ru.iate.reco.factory.ProjectFactory;
 import ru.iate.reco.obj.RecoProject;
 
 /**
  *
- * @author Luksoral
+ * @author Bitizen
  */
 public class WelcomeWindow extends javax.swing.JFrame {
     
