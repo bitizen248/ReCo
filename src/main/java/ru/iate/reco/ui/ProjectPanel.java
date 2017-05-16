@@ -61,7 +61,6 @@ public class ProjectPanel extends javax.swing.JPanel {
 
         nameField.setText(window.getProject().getName());
         nameField.getDocument().addDocumentListener(new DocumentListener(){
-
             @Override
             public void insertUpdate(DocumentEvent e) {
                 removeUpdate(e);
@@ -92,6 +91,25 @@ public class ProjectPanel extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 8, 0, 8);
         jPanel1.add(rootLabel, gridBagConstraints);
+
+        requestRootField.setText(window.getProject().getRequestRoot());
+        requestRootField.getDocument().addDocumentListener(new DocumentListener(){
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                removeUpdate(e);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                window.getProject().setRequestRoot(nameField.getText());
+                window.getRootPane().updateUI();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;

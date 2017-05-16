@@ -21,7 +21,9 @@ package ru.iate.reco.ui;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import ru.iate.reco.factory.RequestFactory;
 import ru.iate.reco.obj.ProjectRequest;
+import ru.iate.reco.obj.Request;
 
 /**
  *
@@ -162,6 +164,8 @@ public class RequestPanel extends javax.swing.JPanel {
 
     private void startRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startRequestActionPerformed
         // TODO add your handling code here:
+        Request request = new Request();
+        //RequestFactory.request(rawRequest)
     }//GEN-LAST:event_startRequestActionPerformed
 
 

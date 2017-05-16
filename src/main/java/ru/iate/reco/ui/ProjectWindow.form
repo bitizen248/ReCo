@@ -192,7 +192,7 @@
                             </Property>
                           </Properties>
                           <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="projectMenu.addListSelectionListener(e -&gt; {&#xa;            if (!e.getValueIsAdjusting() &amp;&amp; projectMenu.getSelectedIndex() != -1) {&#xa;                frame.removeAll();&#xa;                if (projectMenu.getSelectedIndex() == 0) {&#xa;                    ProjectPanel panel = new ProjectPanel();&#xa;                    frame.add(panel);&#xa;                } else {&#xa;                    RequestPanel panel = new RequestPanel();&#xa;                    frame.add(panel);&#xa;                }&#xa;            }&#xa;        });"/>
+                            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="projectMenu.addListSelectionListener(e -&gt; {&#xa;            if (!e.getValueIsAdjusting() &amp;&amp; projectMenu.getSelectedIndex() != -1) {&#xa;                frame.removeAll();&#xa;                if (projectMenu.getSelectedIndex() == 0) {&#xa;                    ProjectPanel panel = new ProjectPanel(this);&#xa;                    frame.add(panel);&#xa;                } else {&#xa;                    RequestPanel panel = new RequestPanel(project.getRequestRoot(), this, projectMenu.getSelectedIndex() - 1);&#xa;                    frame.add(panel);&#xa;                }&#xa;                frame.updateUI();&#xa;            }&#xa;        });"/>
                             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                           </AuxValues>
                         </Component>

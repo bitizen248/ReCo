@@ -128,7 +128,7 @@ public class ProjectWindow extends javax.swing.JFrame {
                     ProjectPanel panel = new ProjectPanel(this);
                     frame.add(panel);
                 } else {
-                    RequestPanel panel = new RequestPanel();
+                    RequestPanel panel = new RequestPanel(project.getRequestRoot(), this, projectMenu.getSelectedIndex() - 1);
                     frame.add(panel);
                 }
                 frame.updateUI();
@@ -168,7 +168,11 @@ public class ProjectWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_addRequestActionPerformed
 
     private void removeRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeRequestActionPerformed
-
+        int index = projectMenu.getSelectedIndex() - 1;
+        if (index >= 0) {
+            project.removeRequest(index);
+            refreshList();
+        }
     }//GEN-LAST:event_removeRequestActionPerformed
 
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
