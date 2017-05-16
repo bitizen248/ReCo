@@ -5,7 +5,15 @@
  */
 package ru.iate.reco.ui;
 
+import ru.iate.reco.obj.ProjectListModel;
 import ru.iate.reco.obj.RecoProject;
+import ru.iate.reco.obj.RequestMenuModel;
+
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import java.io.IOException;
+import ru.iate.reco.factory.ProjectFactory;
 
 /**
  *
@@ -14,12 +22,16 @@ import ru.iate.reco.obj.RecoProject;
 public class ProjectWindow extends javax.swing.JFrame {
     
     private RecoProject project;
+    private String pathToProject;
 
     /**
      * Creates new form ProjectWindow
      */
-    public ProjectWindow() {
-        initComponents();
+    public ProjectWindow(RecoProject project, String path) {
+      this.project = project;
+      this.pathToProject = path;
+      initComponents();
+      refreshList();
     }
 
     /**
@@ -33,14 +45,17 @@ public class ProjectWindow extends javax.swing.JFrame {
 
         root = new javax.swing.JPanel();
         toolbar = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        save = new javax.swing.JButton();
         projectView = new javax.swing.JPanel();
-        jSplitPane1 = new javax.swing.JSplitPane();
-        jPanel4 = new javax.swing.JPanel();
+        javax.swing.JSplitPane jSplitPane1 = new javax.swing.JSplitPane();
+        javax.swing.JPanel menu = new javax.swing.JPanel();
+        javax.swing.JPanel jPanel3 = new javax.swing.JPanel();
+        addRequest = new javax.swing.JButton();
+        removeRequest = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        jMenuBar1 = new javax.swing.JMenuBar();
+        projectMenu = new javax.swing.JList<>();
+        frame = new javax.swing.JPanel();
+        menuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
@@ -50,37 +65,80 @@ public class ProjectWindow extends javax.swing.JFrame {
 
         toolbar.setLayout(new javax.swing.BoxLayout(toolbar, javax.swing.BoxLayout.LINE_AXIS));
 
-        jButton1.setText("jButton1");
-        toolbar.add(jButton1);
-
-        jButton2.setText("jButton2");
-        toolbar.add(jButton2);
+        save.setText("Save");
+        save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveActionPerformed(evt);
+            }
+        });
+        toolbar.add(save);
 
         root.add(toolbar, java.awt.BorderLayout.PAGE_START);
 
         projectView.setLayout(new javax.swing.BoxLayout(projectView, javax.swing.BoxLayout.LINE_AXIS));
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 344, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 245, Short.MAX_VALUE)
-        );
+        menu.setAlignmentX(0.0F);
+        menu.setAlignmentY(0.0F);
+        menu.setMinimumSize(new java.awt.Dimension(100, 52));
+        menu.setPreferredSize(new java.awt.Dimension(50, 245));
+        menu.setLayout(new javax.swing.BoxLayout(menu, javax.swing.BoxLayout.PAGE_AXIS));
 
-        jSplitPane1.setRightComponent(jPanel4);
+        jPanel3.setAlignmentX(0.0F);
+        jPanel3.setAlignmentY(0.0F);
+        jPanel3.setPreferredSize(new java.awt.Dimension(40, 20));
+        jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.X_AXIS));
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        addRequest.setText("+");
+        addRequest.setAlignmentY(0.0F);
+        addRequest.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        addRequest.setMaximumSize(new java.awt.Dimension(20, 20));
+        addRequest.setMinimumSize(new java.awt.Dimension(20, 20));
+        addRequest.setPreferredSize(new java.awt.Dimension(20, 20));
+        addRequest.setRolloverEnabled(true);
+        addRequest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addRequestActionPerformed(evt);
+            }
         });
-        jScrollPane1.setViewportView(jList1);
+        jPanel3.add(addRequest);
 
-        jSplitPane1.setLeftComponent(jScrollPane1);
+        removeRequest.setText("-");
+        removeRequest.setAlignmentY(0.0F);
+        removeRequest.setMaximumSize(new java.awt.Dimension(20, 20));
+        removeRequest.setMinimumSize(new java.awt.Dimension(20, 20));
+        removeRequest.setPreferredSize(new java.awt.Dimension(20, 20));
+        removeRequest.setRolloverEnabled(true);
+        removeRequest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeRequestActionPerformed(evt);
+            }
+        });
+        jPanel3.add(removeRequest);
+
+        menu.add(jPanel3);
+
+        projectMenu.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        projectMenu.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting() && projectMenu.getSelectedIndex() != -1) {
+                frame.removeAll();
+                if (projectMenu.getSelectedIndex() == 0) {
+                    ProjectPanel panel = new ProjectPanel(this);
+                    frame.add(panel);
+                } else {
+                    RequestPanel panel = new RequestPanel();
+                    frame.add(panel);
+                }
+                getRootPane().updateUI();
+            }
+        });
+        jScrollPane1.setViewportView(projectMenu);
+
+        menu.add(jScrollPane1);
+
+        jSplitPane1.setLeftComponent(menu);
+
+        frame.setLayout(new javax.swing.BoxLayout(frame, javax.swing.BoxLayout.LINE_AXIS));
+        jSplitPane1.setRightComponent(frame);
 
         projectView.add(jSplitPane1);
 
@@ -89,29 +147,65 @@ public class ProjectWindow extends javax.swing.JFrame {
         getContentPane().add(root, java.awt.BorderLayout.CENTER);
 
         jMenu1.setText("File");
-        jMenuBar1.add(jMenu1);
+        menuBar.add(jMenu1);
 
         jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
+        menuBar.add(jMenu2);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(menuBar);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
+    private void addRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addRequestActionPerformed
+        project.addNewRequest();
+        refreshList();
+//        menuModel.
+//        projectMenu.chang
+    }//GEN-LAST:event_addRequestActionPerformed
+
+    private void removeRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeRequestActionPerformed
+
+    }//GEN-LAST:event_removeRequestActionPerformed
+
+    private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
+        try {
+            ProjectFactory.saveProject(project, pathToProject);
+        } catch (IOException e) {
+            // TODO: 16.05.17 вывод ошибки
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_saveActionPerformed
+
+    private void refreshList() {
+        DefaultListModel<String> model = new DefaultListModel<>();
+        ProjectListModel modelGenerator = new ProjectListModel(project);
+        for (int i = 0; i < modelGenerator.getSize(); i++) {
+            model.add(i, modelGenerator.getElementAt(i));
+        }
+        projectMenu.setModel(model);
+    }
+
+    public RecoProject getProject() {
+        return project;
+    }
+
+    public void setProject(RecoProject project) {
+        this.project = project;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JList<String> jList1;
+    private javax.swing.JButton addRequest;
+    private javax.swing.JPanel frame;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JMenuBar menuBar;
+    private javax.swing.JList<String> projectMenu;
     private javax.swing.JPanel projectView;
+    private javax.swing.JButton removeRequest;
     private javax.swing.JPanel root;
+    private javax.swing.JButton save;
     private javax.swing.JPanel toolbar;
     // End of variables declaration//GEN-END:variables
 }
