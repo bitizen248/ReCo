@@ -15,7 +15,7 @@ import ru.iate.reco.obj.RecoProject;
 
 /**
  *
- * @author Bitizen
+ * @author Egor
  */
 public class ProjectFactory {
     

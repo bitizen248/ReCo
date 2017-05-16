@@ -18,7 +18,7 @@ import ru.iate.reco.obj.RequestType;
 
 /**
  *
- * @author Bitizen
+ * @author Egor
  */
 public class RequestFactory {
     
