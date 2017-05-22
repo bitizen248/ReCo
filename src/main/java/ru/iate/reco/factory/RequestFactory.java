@@ -24,6 +24,7 @@ public class RequestFactory {
     
     public static Observable<HttpResponse> request(Request rawRequest) {
         return Observable.create(e -> {
+            System.out.println(rawRequest.getAddress());
             HttpRequest request = null;
             switch (rawRequest.getRequestType()) {
                 case GET:
@@ -53,9 +54,10 @@ public class RequestFactory {
                     || rawRequest.getRequestType() == RequestType.HEAD) {
                 request.queryString(rawRequest.getRequestParamsGet());
             } else {
-                ((HttpRequestWithBody) request).body(rawRequest.getRequestParamsPost());
+                ((HttpRequestWithBody) request).body((String) rawRequest.getRequestParamsPost());
             }
             e.onNext(request.asString());
+            e.onComplete(); 
         });
             
     }
