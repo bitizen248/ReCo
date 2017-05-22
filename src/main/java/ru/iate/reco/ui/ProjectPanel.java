@@ -101,7 +101,7 @@ public class ProjectPanel extends javax.swing.JPanel {
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                window.getProject().setRequestRoot(nameField.getText());
+                window.getProject().setRequestRoot(requestRootField.getText());
                 window.getRootPane().updateUI();
             }
 

@@ -172,6 +172,7 @@ public class ProjectWindow extends javax.swing.JFrame {
         if (index >= 0) {
             project.removeRequest(index);
             refreshList();
+            frame.removeAll();
         }
     }//GEN-LAST:event_removeRequestActionPerformed
 

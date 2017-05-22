@@ -19,11 +19,14 @@
  */
 package ru.iate.reco.ui;
 
+import com.mashape.unirest.http.HttpResponse;
+import io.reactivex.Observable;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import ru.iate.reco.factory.RequestFactory;
 import ru.iate.reco.obj.ProjectRequest;
 import ru.iate.reco.obj.Request;
+import ru.iate.reco.obj.RequestType;
 
 /**
  *
@@ -52,12 +55,19 @@ public class RequestPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         requestField = new javax.swing.JTextField();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        javax.swing.JLabel jLabel2 = new javax.swing.JLabel();
+        requestName = new javax.swing.JTextField();
+        javax.swing.JLabel jLabel3 = new javax.swing.JLabel();
+        requestType = new javax.swing.JComboBox<>(RequestType.getTypes());
         startRequest = new javax.swing.JButton();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         jTabbedPane1 = new javax.swing.JTabbedPane();
         javax.swing.JPanel requestPanel = new javax.swing.JPanel();
         javax.swing.JScrollPane jScrollPane2 = new javax.swing.JScrollPane();
@@ -68,11 +78,18 @@ public class RequestPanel extends javax.swing.JPanel {
 
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.PAGE_AXIS));
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(0, 32));
-        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
+        jPanel1.setAlignmentY(0.0F);
+        jPanel1.setMaximumSize(new java.awt.Dimension(2147483647, 90));
+        jPanel1.setMinimumSize(new java.awt.Dimension(0, 90));
+        jPanel1.setPreferredSize(new java.awt.Dimension(400, 90));
+        jPanel1.setRequestFocusEnabled(false);
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setText(" Request Address:");
-        jPanel1.add(jLabel1);
+        jLabel1.setText("Request Address:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(7, 7, 7, 7);
+        jPanel1.add(jLabel1, gridBagConstraints);
 
         requestField.setText(window.getProject().getRequests().get(index).getRequestAddress());
         requestField.getDocument().addDocumentListener(new DocumentListener(){
@@ -93,9 +110,61 @@ public class RequestPanel extends javax.swing.JPanel {
             }
         });
         requestField.setMaximumSize(new java.awt.Dimension(200, 26));
+        requestField.setMinimumSize(new java.awt.Dimension(200, 26));
         requestField.setPreferredSize(new java.awt.Dimension(200, 26));
-        jPanel1.add(requestField);
-        jPanel1.add(filler1);
+        jPanel1.add(requestField, new java.awt.GridBagConstraints());
+
+        jLabel2.setText("Request Name:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(7, 7, 7, 7);
+        jPanel1.add(jLabel2, gridBagConstraints);
+
+        requestName.setText(window.getProject().getRequests().get(index).getName());
+        requestName.getDocument().addDocumentListener(new DocumentListener(){
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                removeUpdate(e);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                window.getProject().getRequests().get(index).setName(requestName.getText());
+                window.getRootPane().updateUI();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel1.add(requestName, gridBagConstraints);
+
+        jLabel3.setText("Request Type:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(7, 7, 7, 7);
+        jPanel1.add(jLabel3, gridBagConstraints);
+
+        requestType.setSelectedIndex(window.getProject().getRequests().get(index).getType().getRequestCode());
+        requestType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                requestTypeActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel1.add(requestType, gridBagConstraints);
 
         startRequest.setText("Start");
         startRequest.addActionListener(new java.awt.event.ActionListener() {
@@ -103,7 +172,23 @@ public class RequestPanel extends javax.swing.JPanel {
                 startRequestActionPerformed(evt);
             }
         });
-        jPanel1.add(startRequest);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 2;
+        jPanel1.add(startRequest, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel1.add(filler1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel1.add(filler2, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel1.add(filler3, gridBagConstraints);
 
         add(jPanel1);
 
@@ -163,19 +248,52 @@ public class RequestPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void startRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startRequestActionPerformed
-        // TODO add your handling code here:
-        Request request = new Request();
-        //RequestFactory.request(rawRequest)
+        Request request = new Request(window.getProject().getRequests().get(index));
+        Observable<HttpResponse> obsRequeest = RequestFactory.request(request);
+        RequestWindow reqWindow = new RequestWindow(obsRequeest, window.getProject().getRequests().get(index).getResponse());
+        reqWindow.setVisible(true);
     }//GEN-LAST:event_startRequestActionPerformed
+
+    private void requestTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_requestTypeActionPerformed
+        RequestType type = null;
+        switch (requestType.getSelectedIndex()) {
+            case 0:
+                type = RequestType.GET;
+                break;
+            case 1:
+                type = RequestType.POST;
+                break;
+            case 2:
+                type = RequestType.PUT;
+                break;
+            case 3:
+                type = RequestType.PATCH;
+                break;
+            case 4:
+                type = RequestType.DELETE;
+                break;
+            case 5:
+                type = RequestType.HEAD;
+                break;
+            case 6:
+                type = RequestType.OPTIONS;
+                break;
+        }
+        window.getProject().getRequests().get(index).setType(type);
+    }//GEN-LAST:event_requestTypeActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
+    private javax.swing.Box.Filler filler3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField requestField;
+    private javax.swing.JTextField requestName;
     private javax.swing.JTextPane requestPane;
+    private javax.swing.JComboBox<String> requestType;
     private javax.swing.JTextPane responsePane;
     private javax.swing.JPanel responsePanel;
     private javax.swing.JButton startRequest;

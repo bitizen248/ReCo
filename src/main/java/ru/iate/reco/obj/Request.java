@@ -6,6 +6,8 @@
 package ru.iate.reco.obj;
 
 import com.google.gson.JsonObject;
+import com.mashape.unirest.request.HttpRequestWithBody;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -20,6 +22,20 @@ public class Request {
      
      private Map<String, Object> requestParamsGet;
      private Object requestParamsPost;
+
+    public Request(ProjectRequest request) {
+        this.address = request.getRequestAddress();
+        this.requestType = request.getType();
+        this.headers = new HashMap<>();
+        if (this.requestType == RequestType.GET
+                || this.requestType == RequestType.HEAD) {
+            this.requestParamsPost = new HashMap<>();
+        } else {
+            this.requestParamsPost = request.getRequest();
+        }
+    }
+     
+     
 
     public String getAddress() {
         return address;
