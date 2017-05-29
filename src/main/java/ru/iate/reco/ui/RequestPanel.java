@@ -248,7 +248,7 @@ public class RequestPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void startRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startRequestActionPerformed
-        Request request = new Request(window.getProject().getRequests().get(index));
+        Request request = new Request(window.getProject().getRequestRoot(), window.getProject().getRequests().get(index));
         Observable<HttpResponse> obsRequeest = RequestFactory.request(request);
         RequestWindow reqWindow = new RequestWindow(obsRequeest, window.getProject().getRequests().get(index).getResponse());
         reqWindow.setVisible(true);

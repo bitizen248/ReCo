@@ -23,8 +23,8 @@ public class Request {
      private Map<String, Object> requestParamsGet;
      private Object requestParamsPost;
 
-    public Request(ProjectRequest request) {
-        this.address = request.getRequestAddress();
+    public Request(String root, ProjectRequest request) {
+        this.address =  root + request.getRequestAddress();
         this.requestType = request.getType();
         this.headers = new HashMap<>();
         if (this.requestType == RequestType.GET
